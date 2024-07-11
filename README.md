@@ -65,3 +65,31 @@ L'Analizzatore di Ingredienti è un'applicazione web basata su Streamlit che per
 Sviluppato da Tedesco e Fenzi
 
 ---
+
+# Logica
+```mermaid
+graph TD
+    A[Start] --> B[User selects ingredient]
+    B --> C{PDF exists?}
+    C -->|Yes| F[Open existing PDF]
+    C -->|No| D[Fetch PDF from website]
+    D --> E[Save PDF locally]
+    E --> F
+    F --> G[Extract full text from PDF]
+    G --> H[Analyze text for NOAEL and LD50]
+    H --> I{NOAEL found?}
+    I -->|Yes| J[Extract NOAEL value and context]
+    I -->|No| K[Display 'NOAEL not found' message]
+    H --> L{LD50 found?}
+    L -->|Yes| M[Extract LD50 value and context]
+    L -->|No| N[Display 'LD50 not found' message]
+    J --> O[Display NOAEL results]
+    K --> O
+    M --> P[Display LD50 results]
+    N --> P
+    O --> Q[Show PDF page for NOAEL]
+    P --> R[Show PDF page for LD50]
+    Q --> S[End]
+    R --> S
+```
+
