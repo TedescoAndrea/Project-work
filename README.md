@@ -67,29 +67,30 @@ Sviluppato da Tedesco e Fenzi
 ---
 
 # Logica
+## Diagramma di Flusso dell'Analisi PDF
+
 ```mermaid
 graph TD
-    A[Start] --> B[User selects ingredient]
-    B --> C{PDF exists?}
-    C -->|Yes| F[Open existing PDF]
-    C -->|No| D[Fetch PDF from website]
-    D --> E[Save PDF locally]
+    A[Inizio] --> B[Utente seleziona l'ingrediente]
+    B --> C{PDF esiste?}
+    C -->|Sì| F[Apri PDF esistente]
+    C -->|No| D[Scarica PDF dal sito web]
+    D --> E[Salva PDF localmente]
     E --> F
-    F --> G[Extract full text from PDF]
-    G --> H[Analyze text for NOAEL and LD50]
-    H --> I{NOAEL found?}
-    I -->|Yes| J[Extract NOAEL value and context]
-    I -->|No| K[Display 'NOAEL not found' message]
-    H --> L{LD50 found?}
-    L -->|Yes| M[Extract LD50 value and context]
-    L -->|No| N[Display 'LD50 not found' message]
-    J --> O[Display NOAEL results]
+    F --> G[Estrai il testo completo dal PDF]
+    G --> H[Analizza il testo per NOAEL e LD50]
+    H --> I{NOAEL trovato?}
+    I -->|Sì| J[Estrai valore NOAEL e contesto]
+    I -->|No| K[Mostra messaggio 'NOAEL non trovato']
+    H --> L{LD50 trovato?}
+    L -->|Sì| M[Estrai valore LD50 e contesto]
+    L -->|No| N[Mostra messaggio 'LD50 non trovato']
+    J --> O[Visualizza risultati NOAEL]
     K --> O
-    M --> P[Display LD50 results]
+    M --> P[Visualizza risultati LD50]
     N --> P
-    O --> Q[Show PDF page for NOAEL]
-    P --> R[Show PDF page for LD50]
-    Q --> S[End]
+    O --> Q[Mostra pagina PDF per NOAEL]
+    P --> R[Mostra pagina PDF per LD50]
+    Q --> S[Fine]
     R --> S
 ```
-
