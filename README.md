@@ -57,6 +57,9 @@ L'Analizzatore di Ingredienti è un'applicazione web basata su Streamlit che per
 
 7. Attiva o disattiva la visualizzazione delle pagine PDF rilevanti per la verifica.
 
+## Altro
+- Nella vostra directory, vi si creeranno quindi il file `cir_reports.xlsx` e una cartella chiamata `pdf_momentari` dove al suo interno verranno salvati i vari PDF usati per l'analisi. Non vi saranno duplicati se analizzerete due o più volte lo stesso ingrediente.
+
 ## Autori
 
 Sviluppato da Tedesco e Fenzi
