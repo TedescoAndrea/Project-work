@@ -1,0 +1,8 @@
+pandas
+requests
+beautifulsoup4
+PyMuPDF
+streamlit
+spacy
+pdfminer-six
+openpyxl
