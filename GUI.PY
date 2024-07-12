@@ -157,14 +157,31 @@ def analyze_pdf(pdf_path):
     noael_list = []
     ld50_list = []
 
-    full_text = extract_text_from_pdf(pdf_path)
     pdf_document = fitz.open(pdf_path)
+    full_text = ""
+    
+    # Conteggio pagine
+    num_pages = len(pdf_document)
+    
+    for page in pdf_document:
+        full_text += page.get_text("text")
+    
+    # Usa spaCy per l'analisi del testo
+    doc = nlp(full_text)
+        
+    # Conteggio frasi e parole
+    num_sentences = len(list(doc.sents))
+    num_words = len([token for token in doc if not token.is_punct])
 
-    # Definizione dei pattern per NOAEL e LD50
+    # Mostra le informazioni durante l'analisi
+    st.info(f"Analisi in corso... \n"
+            f"Pagine: {num_pages}\n"
+            f"Frasi: {num_sentences}\n"
+            f"Parole: {num_words}")
+
     noael_patterns = [r"NOAEL", r"no[- ]observed[- ]adverse[- ]effect[- ]level", r"NOEL", r"no[- ]effect[- ]level"]
     ld50_patterns = [r"LD50", r"lethal[- ]dose", r"median[- ]lethal[- ]dose"]
 
-    # Analisi di ogni pagina del PDF
     for i, page in enumerate(pdf_document):
         page_text = page.get_text("text")
         for pattern in noael_patterns:
@@ -182,7 +199,6 @@ def analyze_pdf(pdf_path):
                     for sentence in context:
                         ld50_list.append((i, sentence, value, unit))
 
-    # Ordina e prendi solo il primo risultato per NOAEL e LD50
     noael_list = sorted(noael_list, key=lambda x: x[2])[:1]
     ld50_list = sorted(ld50_list, key=lambda x: x[2])[:1]
 
@@ -333,5 +349,6 @@ def main_app():
     st.markdown("---")
     st.markdown("Sviluppato da Tedesco e Fenzi")
 
+# Punto di ingresso dell'applicazione
 if __name__ == "__main__":
     main_app()
