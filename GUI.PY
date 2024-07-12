@@ -80,11 +80,12 @@ st.markdown("""
     </style>
     """, unsafe_allow_html=True)
 
-
 # Funzione per leggere, generare e salvare il PDF
 def read_generate_and_save_pdf(selected_item, df, ingredient_column):
     pdf_dir = "pdf_momentari"
-    pdf_path = os.path.join(pdf_dir, f"{selected_item}.pdf")
+    # Sostituisci caratteri non consentiti nei nomi dei file
+    safe_selected_item = re.sub(r'[<>:"/\\|?*]', '_', selected_item)
+    pdf_path = os.path.join(pdf_dir, f"{safe_selected_item}.pdf")
     
     # Controlla se il PDF esiste già
     if os.path.exists(pdf_path):
@@ -319,16 +320,16 @@ def main_app():
     # Ricerca assistita con autocompletamento
     selected_item = st.selectbox('🔍 Cerca ingrediente', filtered_df[ingredient_column].tolist(), key='ingredient_search')
 
-    # Pulsante di ricerca
-    if st.button('🔬 Analizza Ingrediente', key='analyze_button'):
-        with st.spinner(f"Analisi di {selected_item} in corso..."):
+    if st.button('🔬 Analyze Ingredient', key='analyze_button'):
+        with st.spinner(f"Analyzing {selected_item}..."):
             pdf_path, pdf_file = read_generate_and_save_pdf(selected_item, df, ingredient_column)
             if pdf_file:
                 st.session_state.noael_list, st.session_state.ld50_list = analyze_pdf(pdf_path)
                 st.session_state.pdf_path = pdf_path
                 st.session_state.analysis_done = True
             else:
-                st.error("Impossibile analizzare il PDF. Controlla la connessione e riprova.")
+                st.error("Unable to analyze the PDF. Check your connection and try again.")
+
 
     # Visualizza l'analisi e il pulsante di download del PDF
     if 'analysis_done' in st.session_state and st.session_state.analysis_done:
