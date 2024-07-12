@@ -46,7 +46,7 @@ st.markdown("""
         text-align: center;
         margin-bottom: 2rem;
         position: relative;
-        z-index: 1;
+        z-index: 1.
     }
     .background-image {
         position: absolute;
@@ -54,28 +54,28 @@ st.markdown("""
         left: 50%;
         transform: translate(-50%, -30%);
         opacity: 0.1;
-        z-index: 0;
-        width: 50%;
+        z-index: 0.
+        width: 50%.
     }
     h2 {
-        color: #43A047;
+        color: #43A047.
     }
     h3 {
-        color: #FBC02D;
+        color: #FBC02D.
     }
     .sidebar .sidebar-content {
-        background-color: #f0f0f0;
+        background-color: #f0f0f0.
     }
     .symbol-button {
-        margin: 2px;
-        padding: 5px 10px;
-        border-radius: 5px;
-        background-color: #1E88E5;
-        color: white;
-        cursor: pointer;
+        margin: 2px.
+        padding: 5px 10px.
+        border-radius: 5px.
+        background-color: #1E88E5.
+        color: white.
+        cursor: pointer.
     }
     .symbol-button:hover {
-        background-color: #1565C0;
+        background-color: #1565C0.
     }
     </style>
     """, unsafe_allow_html=True)
@@ -119,12 +119,22 @@ def read_generate_and_save_pdf(selected_item, df, ingredient_column):
         st.error(f"Errore durante l'apertura del link: {e}")
         return None, None
 
+# Funzione per pulire il testo
+def clean_text(input_text):
+    # Definisce il pattern regex per rimuovere i numeri che seguono un punto
+    pattern = r'\.(\d+)'
+    # Sostituisce il pattern con un punto
+    cleaned_text = re.sub(pattern, '.', input_text)
+    return cleaned_text
+
 # Funzione per estrarre il testo dal PDF
 def extract_text_from_pdf(pdf_path):
     output_string = io.StringIO()
     with open(pdf_path, 'rb') as fin:
         extract_text_to_fp(fin, output_string, laparams=LAParams(), output_type='text', codec='utf-8')
-    return output_string.getvalue()
+    # Pulisce il testo estratto
+    cleaned_text = clean_text(output_string.getvalue())
+    return cleaned_text
 
 # Funzione per estrarre valori numerici dal testo
 def extract_numeric_value(text):
@@ -185,18 +195,19 @@ def analyze_pdf(pdf_path):
 
     for i, page in enumerate(pdf_document):
         page_text = page.get_text("text")
+        cleaned_text = clean_text(page_text)
         for pattern in noael_patterns:
-            if re.search(pattern, page_text, re.IGNORECASE):
-                value, unit = extract_numeric_value(page_text)
+            if re.search(pattern, cleaned_text, re.IGNORECASE):
+                value, unit = extract_numeric_value(cleaned_text)
                 if value is not None:
-                    context = extract_context_sentences(page_text, pattern)
+                    context = extract_context_sentences(cleaned_text, pattern)
                     for sentence in context:
                         noael_list.append((i, sentence, value, unit))
         for pattern in ld50_patterns:
-            if re.search(pattern, page_text, re.IGNORECASE):
-                value, unit = extract_numeric_value(page_text)
+            if re.search(pattern, cleaned_text, re.IGNORECASE):
+                value, unit = extract_numeric_value(cleaned_text)
                 if value is not None:
-                    context = extract_context_sentences(page_text, pattern)
+                    context = extract_context_sentences(cleaned_text, pattern)
                     for sentence in context:
                         ld50_list.append((i, sentence, value, unit))
 
