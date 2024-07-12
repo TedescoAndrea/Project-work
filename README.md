@@ -20,7 +20,7 @@ L'Analizzatore di Ingredienti è un'applicazione web basata su Streamlit che per
 
 1. Clona il repository:
    ```
-   git clone https://github.com/TedescoAndrea/Project-work 
+   git clone https://github.com/TedescoAndrea/Project-work.git
    cd Project-work
    ```
 
