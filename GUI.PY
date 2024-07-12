@@ -333,6 +333,5 @@ def main_app():
     st.markdown("---")
     st.markdown("Sviluppato da Tedesco e Fenzi")
 
-# Punto di ingresso dell'applicazione
 if __name__ == "__main__":
     main_app()
