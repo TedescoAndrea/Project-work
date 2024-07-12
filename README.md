@@ -71,7 +71,6 @@ Sviluppato da Tedesco e Fenzi
 # Logica
 ## Diagramma di Flusso dell'Analisi PDF
 
-```mermaid
 graph TD
     A[Inizio] --> B[Utente seleziona l'ingrediente]
     B --> C{PDF esiste?}
@@ -93,6 +92,9 @@ graph TD
     N --> P
     O --> Q[Mostra pagina PDF per NOAEL]
     P --> R[Mostra pagina PDF per LD50]
-    Q --> S[Fine]
+    Q --> S[Visualizza pulsante di download PDF]
     R --> S
-```
+    S --> T{Utente vuole scaricare?}
+    T -->|Sì| U[Download PDF della ricerca]
+    T -->|No| V[Fine]
+    U --> V
